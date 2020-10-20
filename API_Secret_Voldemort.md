@@ -9,9 +9,9 @@
 | login | POST | `/user/login` | `{ e-mail: str, password: str } ` | 200: `{ userId: int }` \ 400: Bad request: can't parse `e-mail` \ 401 Unauthorized: invalid `password` | `password` is a hash |
 | get history | GET | `/user/<id>/history` | | 200: `{ phoenix_wins : int, phoenix_loses : int; death_eater_wins : int, death_eater_loses: int}` |
 | list lobbies | GET | `/rooms` | `{ min_players?: int, max_players?: int }` | 200: `[ { id : int, lobby_name: str, current_players : int, max_players: int, min_players: int } ]` | |
-| create lobby | POST |`/rooms` | `{ userId: int, lobby_name: str, min_players : int, max_players : int } ` | 200 - `LOBBY` | |
+| create lobby | POST |`/rooms` | `{ userId: int, lobby_name: str, min_players : int, max_players : int } ` | 200: `LOBBY` | |
 | join lobby | POST |`/rooms/<id>` | `PLAYER_SHORT` | 200: `PLAYER` \ 409: Conflict if: `nick` already exists in this lobby | |
-| get room state | GET | `/rooms/<id>` | | 200: ` { started : bool, game_id : int } ` | game_id = -1 when game has not started, when last player makes this call, room gets deleted |
+| get lobby state | GET | `/rooms/<id>` | | 200: `LOBBY` | if !started, then game_id == -1. When last player makes this call, lobby gets deleted |
 | get owner | GET | `/rooms/<id>/owner` | | 200: `{ nick : str }` | |
 | list players | GET | `/rooms/<id>/player`| | 200:`[ { nick: str} ]` | |
 | change nick | PUT | `/rooms/<id>/player` | `{ nick: str }` | 200: `{ nick: str }` \ 409: Conflict if: `nick` already exists in this lobby | |
@@ -20,11 +20,11 @@
 | avaliable candidates | GET | `/games/<id>/players` | | 200: `[ { nick : str } ]` | PRE : There's a Minister Selected |
 | nominate director | POST | `/games/<id>/director` | `{ nick : str }` | 200: `{ nick : str }` \ 409:Conflict if nick submitted is not valid  |  |
 | post proclamation | POST |`/games/<id>/proclamation` | `{ is_fenix_procl : bool }` | 200: `{ is_fenix_procl : bool }` \ 403: Forbidden : If the client is not the correct  |  | PRE : Minister and Director are selected
-| end game | POST |`/games/end` | `{ user_id: int }` | `[ROL]` | Updates Player History, and when the last player makes this request, then the game gets deleted |
+| end game | POST |`/games/<id>/end` | `{ user_id: int }` | 200: `[ROL]` | Updates Player History, and when the last player makes this request, then the game gets deleted |
 
 -------------
 
-`LOBBY = { lobby_id: int, lobby_name: str, creation_date: datetimestr, creator_username: str, min_players: int, max_players: int, started: bool }`
+`LOBBY = { lobby_id: int, lobby_name: str, game_id : int, creation_date: datetimestr, creator_username: str, min_players: int, max_players: int, started: bool }`
 
 `PLAYER = { userId: int, nick: str, number_player: int, role: str, its_alive: bool, director: bool, minister: bool, chat_blocked: bool }`
 
