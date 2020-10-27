@@ -1,0 +1,107 @@
+from pydantic import BaseModel
+from enum import Enum
+
+# users's models
+
+# lobbies's models
+#Optional es kk: parece que no va en modelos. CHEQUEAR :v
+"""class LobbyInput(BaseModel):
+    lobbyIn_creator: str
+    lobbyIn_name: Optional[str]
+    lobbyIn_max_players: Optional[int]
+    lobbyIn_min_players: Optional[int]"""
+    
+# games's models
+
+
+#https://pydantic-docs.helpmanual.io/usage/models/
+
+"""
+class Board(db.Entity):
+    board_game = Required(Game)    # Depends on Game
+    board_promulged_fenix= Required(int)    # = 0
+    board_promulged_death_eater= Required(int)    # = 0
+    board_deck_codification= Required(int)    # binarie
+    board_is_spell_active= Required(bool)    # = False
+"""
+    
+
+class ViewGame(BaseModel):
+    #game_board
+    game_is_started: bool = False # Depends on Lobby
+    game_next_minister: int     #  Def
+    game_failed_elections: int = 0    # = 0 <= 3 then reset to 0
+    game_step_turn: int = -1    # = -1 No asigned
+    game_last_director: int = -1    # = -1 No asigned
+    game_last_minister: int = -1    # = -1 No asigned
+
+# player models
+class PlayerIn(BaseModel):
+    player_nick: str    # = userName Depends on User
+    player_vote: bool    # True = positive
+    player_direct_select: str # = player_nick or player_number
+
+class PlayerOut(BaseModel):
+    player_nick: str    # = userName Depends on User
+    player_role: int = -1   # = -1 No asigned
+    player_is_alive: bool = True    # = True
+    player_chat_blocked: bool = False    # = False
+    player_director: bool = False
+    player_minister: bool = False
+    player_last_director: int = -1    # = -1 No asigned
+    player_last_minister: int = -1    # = -1 No asigned
+
+class ViewPlayerGame(BaseModel):
+    player_game_id : int    # Depends on Game
+    player_number: int    # Defines order
+    player_nick: str    # = userName Depends on User
+    player_role: int = -1   # = -1 No asigned
+    player_is_alive: bool = True    # = True
+    player_chat_blocked: bool = False    # = False
+    player_director: bool = False
+    player_minister: bool = False
+    player_last_director: int = -1    # = -1 No asigned
+    player_last_minister: int = -1    # = -1 No asigned
+
+# board models
+class ViewActions(BaseModel): # class Actions(int, Enum):
+    # int or enum
+    actions_select_director: int = 0
+    actions_select_candidate: int = 1
+    actions_inializate_proclamation: int = 2
+    actions_select_card: int = 3
+    actions_send_card: int = 4
+    actions_discart_card: int = 5
+    actions_end_proclamation: int = 6
+
+class ViewBoard(BaseModel):
+    board_promulged_fenix: int = 0
+    board_promulged_death_eater: int = 0
+    board_is_spell_active: int = False
+
+#class ViewSpells(int, Enum): # Depends on ViewBoard if the board_is_spell_active= True
+#    spell_caos = 0
+#    spell_expelliarmus = 1
+#    spell_avada_kedavra = 2
+#    spell_prophecy = 3 # adivinacion
+#    spell_imperius = 4
+#    spell_crucio = 5
+        
+# log models
+class ViewLog(BaseModel):
+    log_won_games_fenix: int = 0    # = 0
+    log_won_games_death_eater: int = 0    # = 0
+    log_lost_games_fenix: int = 0    # = 0
+    log_lost_games_death_eater: int = 0    # = 0
+
+# 17 Cards = 17 bits for "binarie order"
+# https://www.datacamp.com/community/tutorials/python-data-type-conversion
+# 0bits a 17bits => 0 = fenix, 1 = mortifago and -1 = ¿not card?
+#deck_codification: list(int) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+#class Card(BaseModel): # class Card(int, Enum):
+    # int or bool
+#    fenix: int = 0
+#    death_eater: int = 1
+
+# histories's models
