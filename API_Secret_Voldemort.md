@@ -4,7 +4,7 @@
 
 | ENDPOINT     | METHOD | URI         | PARAMS       | RESPONSE      | COMMENTS |
 | ---------    | ------ | ----------- | ------------ | ------------- | -------- |
-| register     | POST   | `/user/register` | `{ e-mail: str, username: str, password: str, photo?: image }` | 409: Conflict if: `e-mail` already registered or `username` already registered \ 400:Bad Request if: can't parse `e-mail` | `password` is hash |
+| register     | POST   | `/user/register` | `{ e-mail: str, username: str, password: str, photo?: image }` | 409: Conflict if: `e-mail` already registered or `username` already registered \ 400wwwwwwwwwwwwwwwwwwwwwwwwwwwwwq:Bad Request if: can't parse `e-mail` | `password` is hash |
 | validate email | POST | `/user/<id>/validation` | `{ validation_code: str }` | 200: `{ userId : int }` \ 403:Forbidden if `validation_code` is wrong | |
 | login | POST | `/user/login` | `{ e-mail: str, password: str } ` | 200: `{ userId: int }` \ 400: Bad request: can't parse `e-mail` \ 401 Unauthorized: invalid `password` | `password` is a hash |
 | get history | GET | `/user/<id>/history` | | 200: `{ phoenix_wins : int, phoenix_loses : int; death_eater_wins : int, death_eater_loses: int}` |
@@ -12,15 +12,15 @@
 | create lobby | POST |`/rooms` | `{ userId: int, lobby_name: str, min_players : int, max_players : int } ` | 200: `LOBBY` | |
 | join lobby | POST |`/rooms/<id>` | `PLAYER_SHORT` | 200: `PLAYER` \ 409: Conflict if: `nick` already exists in this lobby | |
 | get lobby state | GET | `/rooms/<id>` | | 200: `LOBBY` | if !started, then game_id == -1. When last player makes this call, lobby gets deleted |
-| get owner | GET | `/rooms/<id>/owner` | | 200: `{ nick : str }` | |
+| get owner | GET | `/rooms/<id>/owner` | | 200: `{ nick trrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr: str }` | |
 | list players | GET | `/rooms/<id>/player`| | 200:`[ { nick: str} ]` | |
 | change nick | PUT | `/rooms/<id>/player` | `{ nick: str }` | 200: `{ nick: str }` \ 409: Conflict if: `nick` already exists in this lobby | |
 | kick player | POST | `/rooms/<id>/owner/kick` | `{ userId: int }` | | |
 | start game | POST | `/rooms/<id>/owner/start` | | | Server stops more people from entering and starts the game. |
-| avaliable candidates | GET | `/games/<id>/players` | | 200: `[ { nick : str } ]` | PRE : There's a Minister Selected |
+| avaliable candidates | GET | `/games/<id>/players` | | 200: `[ { nick : dfgggggggggggggggggggggstr } ]` | PRE : There's a Minister Selected |
 | nominate director | POST | `/games/<id>/director` | `{ nick : str }` | 200: `{ nick : str }` \ 409:Conflict if nick submitted is not valid  |  |
 | post proclamation | POST |`/games/<id>/proclamation` | `{ is_fenix_procl : bool }` | 200: `{ is_fenix_procl : bool }` \ 403: Forbidden : If the client is not the correct  |  | PRE : Minister and Director are selected
-| end game | POST |`/games/<id>/end` | `{ user_id: int }` | 200: `[ROL]` | Updates Player History, and when the last player makes this request, then the game gets deleted |
+| end game | POST |`/games/<id>/end` | `{ user_id: int }` | 200: `ggdddddddddddddddddddddd[ROL]` | Updates Player History, and when the last player makes this request, then the game gets delerewqted |
 
 -------------
 
